@@ -191,16 +191,28 @@ const AboutSection: React.FC = () => {
           </motion.h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {[{ name: "Ross James", role: "Founder & CEO", bio: "With over 20 years in renewable energy, Ross leads our mission to revolutionize sustainable fuel production.", image: RossJamesImg },
-              { name: "Deependra Mehta", role: "Co-Founder & CTO", bio: "A pioneer in biomass conversion technology, Deependra drives our technical innovation and process optimization.", image: DeependraMehtaImg }]
-              .map((person, idx) => (
-                <motion.div
-                  key={person.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.6, delay: 0.2 + idx * 0.2 }}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden group"
-                >
+            {[
+              { 
+                name: "Ross James",
+                role: "Founder & CEO",
+                bio: "With over 20 years in renewable energy, Ross leads our mission to revolutionize sustainable fuel production.",
+                image: RossJamesImg
+              },
+              {
+                name: "Deependra Mehta",
+                role: "Co-Founder & CTO",
+                bio: "A pioneer in biomass conversion technology, Deependra drives our technical innovation and process optimization.",
+                image: DeependraMehtaImg
+              }
+            ].map((person, idx) => (
+              <motion.div
+                key={person.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={inView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 + idx * 0.2 }}
+                className="group relative"
+              >
+                <div className="relative rounded-xl overflow-hidden shadow-lg transform transition-transform duration-500 group-hover:scale-105">
                   <div className="aspect-video overflow-hidden">
                     <img
                       src={person.image}
@@ -208,13 +220,15 @@ const AboutSection: React.FC = () => {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <div className="p-6">
-                    <h4 className="text-xl font-bold text-gray-800">{person.name}</h4>
-                    <p className="text-green-600 mb-4">{person.role}</p>
-                    <p className="text-gray-600">{person.bio}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                    <h4 className="text-xl font-bold">{person.name}</h4>
+                    <p className="text-green-400 mb-2">{person.role}</p>
+                    <p className="text-sm text-gray-200">{person.bio}</p>
                   </div>
-                </motion.div>
-              ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
 
@@ -236,7 +250,7 @@ const AboutSection: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow transform hover:-translate-y-1 duration-300"
               >
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4 text-green-600">
                   {value.icon}
@@ -256,7 +270,7 @@ const AboutSection: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
+              className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow transform hover:-translate-y-1 duration-300"
             >
               <div className="flex items-center justify-center mb-4">{stat.icon}</div>
               <h3 className="text-lg font-semibold text-gray-800 text-center mb-2">{stat.title}</h3>
