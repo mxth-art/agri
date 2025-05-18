@@ -1,12 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { Parallax } from 'react-parallax';
 import {
   LightBulbIcon,
   ShieldCheckIcon,
   GlobeAltIcon,
   HandThumbUpIcon,
-  FireIcon,              // changed from LeafIcon
+  FireIcon,
   UsersIcon,
   SparklesIcon,
   BuildingOffice2Icon,
@@ -15,10 +16,20 @@ import RossJamesImg from "../assets/ross-james.jpg";
 import DeependraMehtaImg from "../assets/deependra-mehta.jpg";
 import AnimatedCounter from './ui/AnimatedCounter';
 
-
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
+};
+
+const curtainReveal = {
+  hidden: { scaleY: 0 },
+  visible: { 
+    scaleY: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.65, 0, 0.35, 1]
+    }
+  }
 };
 
 const values = [
@@ -50,7 +61,7 @@ const stats = [
     value: 25000,
     suffix: " tons",
     description: "Annually reduced emissions through clean fuels.",
-    icon: <FireIcon className="h-8 w-8 text-green-600" />, // replaced LeafIcon
+    icon: <FireIcon className="h-8 w-8 text-green-600" />,
   },
   {
     title: "Partners Worldwide",
@@ -76,12 +87,30 @@ const stats = [
 ];
 
 const AboutSection: React.FC = () => {
-  const [ref, inView] = useInView({ triggerOnce: true });
+  const [ref, inView] = useInView({ 
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
   return (
-    <section id="about" className="py-20 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Section Header */}
+    <section id="about" className="relative py-20 bg-white overflow-hidden">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={curtainReveal}
+        className="absolute inset-0 origin-top bg-green-50 -z-10"
+      />
+
+      <Parallax
+        blur={0}
+        bgImage="https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg"
+        strength={200}
+        className="absolute inset-0 !bg-fixed"
+      >
+        <div className="h-full w-full bg-white/90" />
+      </Parallax>
+
+      <div className="container mx-auto px-4 md:px-6 relative">
         <motion.div
           ref={ref}
           initial="hidden"
@@ -90,13 +119,28 @@ const AboutSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-gray-900"
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             About Agri-BioFuels Global
-          </h2>
-          <div className="w-24 h-1 bg-green-600 mx-auto mt-4 mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.div 
+            className="w-24 h-1 bg-green-600 mx-auto mt-4 mb-6"
+            initial={{ scaleX: 0 }}
+            animate={inView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          />
+          <motion.p 
+            className="text-lg text-gray-600 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
             We're revolutionizing the renewable energy sector by creating sustainable aviation and maritime fuels from agricultural waste.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Company Story */}
